@@ -2,121 +2,98 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { LINKS, NAV_LINKS, SOCIALS } from "@/constants";
+import { NAV_LINKS, SOCIALS } from "@/constants";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
   return (
-    <div className="w-full h-[65px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#03001427] backdrop-blur-md z-50 px-10">
-      {/* Navbar Container */}
-      <div className="w-full h-full flex items-center justify-between m-auto px-[10px]">
-        {/* Logo + Name */}
-        <Link
-          href="#about-me"
-          className="flex items-center"
-        >
+    <nav className="fixed top-0 w-full bg-[#03001427] backdrop-blur-md shadow-lg shadow-[#2A0E61]/50 z-50">
+      <div className="flex items-center justify-between h-[65px] px-5 md:px-10">
+        {/* Logo & Name */}
+        <Link href="#about-me" className="flex items-center" onClick={closeMenu}>
           <Image
             src="/logo.png"
             alt="Logo"
-            width={70}
-            height={70}
+            width={50}
+            height={50}
             draggable={false}
             className="cursor-pointer"
           />
-          <div className="hidden md:flex md:selffont-bold ml-[10px] text-gray-300">John Doe</div>
+          <span className="hidden md:block text-gray-300 font-bold ml-2">
+            Abdul Rahman | Devxora
+          </span>
         </Link>
 
-        {/* Web Navbar */}
-        <div className="hidden md:flex w-[500px] h-full flex-row items-center justify-between md:mr-20">
-          <div className="flex items-center justify-between w-full h-auto border-[rgba(112,66,248,0.38)] bg-[rgba(3,0,20,0.37)] mr-[15px] px-[20px] py-[10px] rounded-full text-gray-200">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.title}
-                href={link.link}
-                className="cursor-pointer hover:text-[rgb(112,66,248)] transition"
-              >
-                {link.title}
-              </Link>
-            ))}
-
-            {/* Source Code */}
-            <Link
-              href={LINKS.sourceCode}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="cursor-pointer hover:text-[rgb(112,66,248)] transition"
-            >
-              Source Code
-            </Link>
-          </div>
-        </div>
-
-        {/* Social Icons (Web) */}
-        <div className="hidden md:flex flex-row gap-5">
-          {SOCIALS.map(({ link, name, icon: Icon }) => (
-            <Link
-              href={link}
-              target="_blank"
-              rel="noreferrer noopener"
-              key={name}
-            >
-              <Icon className="h-6 w-6 text-white" />
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-6 bg-[rgba(3,0,20,0.37)] px-6 py-2 rounded-full border border-[rgba(112,66,248,0.38)] text-gray-200">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.title} href={link.link} className="hover:text-[rgb(112,66,248)] transition">
+              {link.title}
             </Link>
           ))}
         </div>
 
-        {/* Hamburger Menu */}
+        {/* Social Links (Desktop) */}
+        <div className="hidden md:flex space-x-4">
+          {SOCIALS.map(({ link, name, icon: Icon }) => (
+            <Link key={name} href={link} target="_blank" rel="noopener noreferrer">
+              <Icon className="h-6 w-6 text-white hover:text-[rgb(112,66,248)] transition" />
+            </Link>
+          ))}
+        </div>
+
+        {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white focus:outline-none text-4xl"
+          className="md:hidden text-white text-3xl"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
         >
-          ☰
+          {isMobileMenuOpen ? "✖" : "☰"}
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-[65px] left-0 w-full bg-[#030014] p-5 flex flex-col items-center text-gray-300 md:hidden">
-          {/* Links */}
-          <div className="flex flex-col items-center gap-4">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.title}
-                href={link.link}
-                className="cursor-pointer hover:text-[rgb(112,66,248)] transition text-center"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.title}
-              </Link>
-            ))}
-            <Link
-              href={LINKS.sourceCode}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="cursor-pointer hover:text-[rgb(112,66,248)] transition text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 300 }} // Start from the right
+            animate={{ opacity: 1, x: 0 }} // Slide in smoothly
+            exit={{ opacity: 0, x: 300 }} // Slide out to the right
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed top-0 right-0 w-3/4 sm:w-1/2 h-screen bg-[#030014]/80 backdrop-blur-lg shadow-lg flex flex-col items-center justify-center text-gray-300 md:hidden"
+          >
+            {/* Close Button */}
+            <button
+              className="absolute top-5 right-6 text-white text-3xl"
+              onClick={closeMenu}
             >
-              Source Code
-            </Link>
-          </div>
+              ✖
+            </button>
 
-          {/* Social Icons */}
-          <div className="flex justify-center gap-6 mt-6">
-            {SOCIALS.map(({ link, name, icon: Icon }) => (
-              <Link
-                href={link}
-                target="_blank"
-                rel="noreferrer noopener"
-                key={name}
-              >
-                <Icon className="h-8 w-8 text-white" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+            {/* Mobile Links */}
+            <div className="flex flex-col items-center space-y-6 text-lg">
+              {NAV_LINKS.map((link) => (
+                <Link key={link.title} href={link.link} onClick={closeMenu} className="hover:text-[rgb(112,66,248)] transition">
+                  {link.title}
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile Social Icons */}
+            <div className="flex space-x-6 mt-8">
+              {SOCIALS.map(({ link, name, icon: Icon }) => (
+                <Link key={name} href={link} target="_blank" rel="noopener noreferrer">
+                  <Icon className="h-8 w-8 text-white hover:text-[rgb(112,66,248)] transition" />
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };

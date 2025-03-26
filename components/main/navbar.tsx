@@ -21,9 +21,9 @@ export const Navbar = () => {
             width={50}
             height={50}
             draggable={false}
-            className="cursor-pointer"
+            className="cursor-pointer hidden md:block lg:block"
           />
-          <span className="hidden md:block text-gray-300 font-bold ml-2">
+          <span className=" md:block text-white font-bold ml-2">
             Abdul Rahman | Devxora
           </span>
         </Link>

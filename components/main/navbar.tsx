@@ -11,36 +11,50 @@ export const Navbar = () => {
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <nav className="fixed top-0 w-full bg-[#03001427] backdrop-blur-md shadow-lg shadow-[#2A0E61]/50 z-50">
-      <div className="flex items-center justify-between h-[65px] px-5 md:px-10">
+    <nav className="fixed top-0 left-0 w-full bg-[#03001427] backdrop-blur-md shadow-lg shadow-[#2A0E61]/50 z-50">
+      <div className="flex items-center justify-between h-[70px] px-5 md:px-10">
         {/* Logo & Name */}
-        <Link href="#about-me" className="flex items-center" onClick={closeMenu}>
+        <Link 
+          href="#about-me" 
+          className="flex items-center gap-2" 
+          onClick={closeMenu}
+        >
           <Image
             src="/logo.png"
             alt="Logo"
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             draggable={false}
-            className="cursor-pointer hidden md:block lg:block"
+            className="cursor-pointer"
           />
-          <span className=" md:block text-white font-bold ml-2">
-            Abdul Rahman | Devxora
+          <span className="hidden sm:block text-white font-bold tracking-wide">
+            I'm Rahman | Devxora
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6 bg-[rgba(3,0,20,0.37)] px-6 py-2 rounded-full border border-[rgba(112,66,248,0.38)] text-gray-200">
+        <div className="hidden md:flex items-center gap-8 bg-[rgba(3,0,20,0.37)] px-8 py-2 rounded-full border border-[rgba(112,66,248,0.38)] text-gray-200">
           {NAV_LINKS.map((link) => (
-            <Link key={link.title} href={link.link} className="hover:text-[rgb(112,66,248)] transition">
+            <Link 
+              key={link.title} 
+              href={link.link} 
+              className="hover:text-[rgb(112,66,248)] transition font-medium"
+            >
               {link.title}
             </Link>
           ))}
         </div>
 
         {/* Social Links (Desktop) */}
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex items-center gap-5">
           {SOCIALS.map(({ link, name, icon: Icon }) => (
-            <Link key={name} href={link} target="_blank" rel="noopener noreferrer">
+            <Link 
+              key={name} 
+              href={link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
               <Icon className="h-6 w-6 text-white hover:text-[rgb(112,66,248)] transition" />
             </Link>
           ))}
@@ -48,7 +62,7 @@ export const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white text-3xl"
+          className="md:hidden text-white text-3xl flex items-center justify-center"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -60,9 +74,9 @@ export const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: 300 }} // Start from the right
-            animate={{ opacity: 1, x: 0 }} // Slide in smoothly
-            exit={{ opacity: 0, x: 300 }} // Slide out to the right
+            initial={{ opacity: 0, x: 300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 300 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="fixed top-0 right-0 w-3/4 sm:w-1/2 h-screen bg-[#030014]/80 backdrop-blur-lg shadow-lg flex flex-col items-center justify-center text-gray-300 md:hidden"
           >
@@ -75,18 +89,29 @@ export const Navbar = () => {
             </button>
 
             {/* Mobile Links */}
-            <div className="flex flex-col items-center space-y-6 text-lg">
+            <div className="flex flex-col items-center space-y-8 text-lg font-medium">
               {NAV_LINKS.map((link) => (
-                <Link key={link.title} href={link.link} onClick={closeMenu} className="hover:text-[rgb(112,66,248)] transition">
+                <Link 
+                  key={link.title} 
+                  href={link.link} 
+                  onClick={closeMenu} 
+                  className="hover:text-[rgb(112,66,248)] transition"
+                >
                   {link.title}
                 </Link>
               ))}
             </div>
 
             {/* Mobile Social Icons */}
-            <div className="flex space-x-6 mt-8">
+            <div className="flex space-x-6 mt-10">
               {SOCIALS.map(({ link, name, icon: Icon }) => (
-                <Link key={name} href={link} target="_blank" rel="noopener noreferrer">
+                <Link 
+                  key={name} 
+                  href={link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
                   <Icon className="h-8 w-8 text-white hover:text-[rgb(112,66,248)] transition" />
                 </Link>
               ))}

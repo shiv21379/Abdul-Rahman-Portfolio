@@ -11,9 +11,10 @@ import {
 export interface Skill {
   skill_name: string;
   image: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
 }
+
 
 // SKILL_DATA
 export const SKILL_DATA: Skill[] = [
